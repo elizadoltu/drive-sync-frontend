@@ -75,7 +75,7 @@ const MechanicChatbot = () => {
         </div>
       </header>
       <div
-        id="chat-container"
+        id="chat-container" //asd
         style={{
           maxWidth: '600px',
           margin: '0 auto',

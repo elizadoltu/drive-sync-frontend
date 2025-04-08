@@ -48,7 +48,6 @@ function Profile() {
 
     try {
       const decoded = jwtDecode(token);
-      console.log("Decoded token:", decoded);
       setUserId(decoded.sub);
 
       fetchProfile(token);
@@ -156,7 +155,6 @@ function Profile() {
         averageFuelConsumption: carFormData.averageFuelConsumption,
         averageDistanceMade: carFormData.averageDistanceMade,
       };
-      console.log("Car data for first API:", carData);
 
       await axios.post(
         "https://cars-dot-cloud-app-455515.lm.r.appspot.com/cars",
@@ -175,7 +173,6 @@ function Profile() {
         status: enrichedCarFormData.status || "active",
         total_mileage: enrichedCarFormData.total_mileage || 0,
       };
-      console.log("Enriched car data for second API:", enrichedCarData);
 
       await axios.post(
         "https://firestore-service-dot-cloud-app-455515.lm.r.appspot.com/api/cars",

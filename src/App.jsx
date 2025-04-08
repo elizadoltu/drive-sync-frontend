@@ -3,6 +3,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Dashboard from './components/Dashboard';
 // import AdminLogin from './admin/LoginAdmin';
+import MechanicChatbot from './components/MechanicChatbot';
 import Profile from "./pages/Profile";
 import Maps from './components/Maps';
 // import ProfileSettings from "./pages/ProfileSettings";
@@ -23,6 +24,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path='/user/profile' element={<Profile />} />
           <Route path='/maps' element={<Maps />} />
+          <Route path='/chatbot' element={<MechanicChatbot />} />
           {/* <Route path='/user/settings' element={<ProfileSettings />} /> */}
           {/* <Route path='/user/bills' element={<Bills />} />
           <Route path='/user/cars' element={<Cars />} />

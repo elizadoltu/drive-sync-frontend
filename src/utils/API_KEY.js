@@ -1,0 +1,1 @@
+export default import.meta.env.VITE_MAPS_API_KEY;

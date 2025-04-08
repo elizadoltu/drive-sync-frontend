@@ -4,6 +4,7 @@ import Register from './components/Register';
 import Dashboard from './components/Dashboard';
 // import AdminLogin from './admin/LoginAdmin';
 import Profile from "./pages/Profile";
+import Maps from './components/Maps';
 // import ProfileSettings from "./pages/ProfileSettings";
 // import Reservations from "./pages/Reservations";
 // import Bills from "./pages/Bills";
@@ -21,6 +22,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path='/user/profile' element={<Profile />} />
+          <Route path='/maps' element={<Maps />} />
           {/* <Route path='/user/settings' element={<ProfileSettings />} /> */}
           {/* <Route path='/user/bills' element={<Bills />} />
           <Route path='/user/cars' element={<Cars />} />

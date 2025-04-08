@@ -58,6 +58,9 @@ function Dashboard() {
             <Link to="/user/profile" className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100">
               Profile
             </Link>
+            <Link to="/dashboard" className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100">
+              Dashboard
+            </Link>
             <button 
               onClick={handleLogout}
               className="px-3 py-2 rounded-md text-sm font-medium text-white bg-[#181818] hover:bg-[#333333]"

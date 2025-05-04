@@ -25,7 +25,7 @@ function Register() {
       };
 
       await axios.post(
-        "https://users-dot-cloud-app-455515.lm.r.appspot.com/api/auth/register",
+        "https://auth-drivesync-ebapcqbegrg4b3fa.polandcentral-01.azurewebsites.net/api/auth/register",
         payload
       );
       setMessage({

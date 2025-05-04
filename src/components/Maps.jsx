@@ -53,7 +53,7 @@ const Maps = () => {
 
   const fetchCarLocations = async (mapInstance) => {
     try {
-      const response = await fetch('https://maps-dot-cloud-app-455515.lm.r.appspot.com/api/maps');
+      const response = await fetch('https://maps-drivesync-dbhegqdugebhhdd7.polandcentral-01.azurewebsites.net/api/maps');
       
       if (!response.ok) {
         throw new Error(`API responded with status: ${response.status}`);

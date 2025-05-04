@@ -19,7 +19,7 @@ function Dashboard() {
       
       try {
         const userResponse = await axios.get(
-          'https://users-dot-cloud-app-455515.lm.r.appspot.com/api/profile', 
+          'https://auth-drivesync-ebapcqbegrg4b3fa.polandcentral-01.azurewebsites.net/api/profile', 
           { headers }
         );
         setUser(userResponse.data.user);

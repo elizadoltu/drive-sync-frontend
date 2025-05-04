@@ -25,7 +25,7 @@ const MechanicChatbot = () => {
     setConversation(prev => [...prev, { role: 'loading', text: 'Loading...' }]);
 
     try {
-      const response = await fetch('https://chatbot-dot-cloud-app-455515.lm.r.appspot.com/api/mechanic-chat', {
+      const response = await fetch('https://chatbot-drivesync-f6fzfma4eqaqgfbx.polandcentral-01.azurewebsites.net/api/mechanic-chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question: trimmedQuestion })

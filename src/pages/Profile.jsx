@@ -86,7 +86,7 @@ function Profile() {
     const token = localStorage.getItem("token");
     try {
       const response = await axios.get(
-        "https://cars-dot-cloud-app-455515.lm.r.appspot.com/cars",
+        "https://cars-drivesync-bfhxfncpb8a9e5hc.polandcentral-01.azurewebsites.net/cars",
         { headers: { Authorization: `Bearer ${token}` } }
       );
       const filteredCars = response.data.filter(
@@ -157,7 +157,7 @@ function Profile() {
       };
 
       await axios.post(
-        "https://cars-dot-cloud-app-455515.lm.r.appspot.com/cars",
+        "https://cars-drivesync-bfhxfncpb8a9e5hc.polandcentral-01.azurewebsites.net/cars",
         carData,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -236,7 +236,7 @@ function Profile() {
       const results = await Promise.all(
         validCars.map((car) =>
           axios.post(
-            "https://cars-dot-cloud-app-455515.lm.r.appspot.com/cars",
+            "https://cars-drivesync-bfhxfncpb8a9e5hc.polandcentral-01.azurewebsites.net/cars",
             car,
             { headers: { Authorization: `Bearer ${token}` } }
           )
@@ -261,7 +261,7 @@ function Profile() {
     const token = localStorage.getItem("token");
     try {
       await axios.delete(
-        `https://cars-dot-cloud-app-455515.lm.r.appspot.com/cars/${carId}`,
+        `https://cars-drivesync-bfhxfncpb8a9e5hc.polandcentral-01.azurewebsites.net/cars/${carId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       alert("Car deleted successfully!");

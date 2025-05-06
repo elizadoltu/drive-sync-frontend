@@ -37,6 +37,8 @@ function Profile() {
   const [jsonInput, setJsonInput] = useState("");
   const [activeTab, setActiveTab] = useState("profile");
   const [userId, setUserId] = useState(null);
+  const [speedWarning, setSpeedWarning] = useState(null);
+  const [speedLoading, setSpeedLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -51,6 +53,7 @@ function Profile() {
       setUserId(decoded.sub);
 
       fetchProfile(token);
+      fetchSpeedWarning();
     } catch (error) {
       console.error("Failed to decode token", error);
       localStorage.removeItem("token");
@@ -79,6 +82,20 @@ function Profile() {
       setIsLoading(false);
     } catch (error) {
       console.error("Failed to fetch profile", error);
+    }
+  };
+
+  const fetchSpeedWarning = async () => {
+    setSpeedLoading(true);
+    try {
+      const response = await axios.get(
+        "https://sendnotif.azurewebsites.net/api/SpeedWarning"
+      );
+      setSpeedWarning(response.data);
+      setSpeedLoading(false);
+    } catch (error) {
+      console.error("Failed to fetch speed warning", error);
+      setSpeedLoading(false);
     }
   };
 
@@ -275,6 +292,10 @@ function Profile() {
     }
   };
 
+  const refreshSpeedWarning = () => {
+    fetchSpeedWarning();
+  };
+
   if (isLoading)
     return (
       <div className="flex justify-center items-center h-screen">
@@ -284,7 +305,7 @@ function Profile() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm">
+      <header className="bg-white shadow-sm top-0 left-0 right-0 z-20">
         <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex justify-between items-center">
           <div className="uppercase leading-none">
             <p className="font-bold">drive sync</p>
@@ -294,15 +315,47 @@ function Profile() {
           <div className="flex space-x-4">
             <Link
               to="/user/profile"
-              className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100"
+              className={`px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 relative ${
+                location.pathname === "/user/profile" ? "nav-active" : ""
+              }`}
             >
               Profile
+              {location.pathname === "/user/profile" && (
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#050505]"></span>
+              )}
             </Link>
             <Link
               to="/dashboard"
-              className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100"
+              className={`px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 relative ${
+                location.pathname === "/dashboard" ? "nav-active" : ""
+              }`}
             >
               Dashboard
+              {location.pathname === "/dashboard" && (
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#050505]"></span>
+              )}
+            </Link>
+            <Link
+              to="/chatbot"
+              className={`px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 relative ${
+                location.pathname === "/chatbot" ? "nav-active" : ""
+              }`}
+            >
+              Chatbot
+              {location.pathname === "/chatbot" && (
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#050505]"></span>
+              )}
+            </Link>
+            <Link
+              to="/maps"
+              className={`px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 relative ${
+                location.pathname === "/maps" ? "nav-active" : ""
+              }`}
+            >
+              Maps
+              {location.pathname === "/maps" && (
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#050505]"></span>
+              )}
             </Link>
             <button
               onClick={handleLogout}
@@ -320,6 +373,60 @@ function Profile() {
           <p className="mt-1 text-sm text-gray-500">
             Manage your profile and cars
           </p>
+        </div>
+
+        {/* Speed Warning Alert */}
+        <div className="mb-6">
+          <div className="bg-white overflow-hidden shadow rounded-lg">
+            <div className="px-4 py-5 sm:p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-lg font-medium text-gray-900">
+                    Current Speed Status
+                  </h3>
+                  {speedLoading ? (
+                    <p className="text-sm text-gray-500">Loading speed data...</p>
+                  ) : speedWarning ? (
+                    <div className="mt-2">
+                      <p className="text-sm text-gray-700">
+                        <span className="font-medium">Status:</span>{" "}
+                        <span className={`${speedWarning.message === "Speed is acceptable" ? "text-green-600" : "text-red-600"} font-medium`}>
+                          {speedWarning.message}
+                        </span>
+                      </p>
+                      {speedWarning.speed && (
+                        <p className="text-sm text-gray-700">
+                          <span className="font-medium">Current Speed:</span>{" "}
+                          {speedWarning.speed} km/h
+                        </p>
+                      )}
+                    </div>
+                  ) : (
+                    <p className="text-sm text-gray-500">No speed data available</p>
+                  )}
+                </div>
+                <button
+                  onClick={refreshSpeedWarning}
+                  className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none"
+                >
+                  <svg
+                    className="-ml-1 mr-2 h-5 w-5 text-gray-500"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  Refresh
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Navigation Tabs */}

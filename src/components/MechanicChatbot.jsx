@@ -51,7 +51,7 @@ const MechanicChatbot = () => {
 
   const speakText = async (text) => {
     try {
-      const response = await fetch('http://localhost:3000/api/text-to-speech/audio', {
+      const response = await fetch('https://speech-drivesync-fud0cxh8c0ahg3cq.polandcentral-01.azurewebsites.net/api/text-to-speech/audio', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text }),

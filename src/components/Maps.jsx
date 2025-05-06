@@ -94,15 +94,6 @@ const Maps = () => {
       for (const car of carsData) {
         if (car.lat === undefined || car.lng === undefined) continue;
   
-        const weatherRes = await fetch('https://mechanic-chatbot-drivesync-f3fuh9gchyf8g2d3.polandcentral-01.azurewebsites.net/api/weather', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ lat: car.lat, lon: car.lng })
-        });
-  
-        const weatherJson = await weatherRes.json();
-        const weatherInfo = weatherJson.weather;
-  
         const position = [car.lng, car.lat];
         points.push(position);
   
@@ -113,7 +104,6 @@ const Maps = () => {
             make: car.make || 'Unknown',
             status: car.status || 'unknown',
             color: car.status === 'active' ? 'green' : 'red',
-            weather: weatherInfo?.phrases?.day?.longPhrase || 'No weather data'
           }
         );
   

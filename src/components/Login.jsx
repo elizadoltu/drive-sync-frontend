@@ -15,7 +15,7 @@ function Login() {
     setMessage({ text: "", type: "" });
     try {
       const response = await axios.post(
-        "https://auth-drivesync-ebapcqbegrg4b3fa.polandcentral-01.azurewebsites.net/api/auth/login",
+        "https://users-dot-cloud-app-455515.lm.r.appspot.com/api/auth/login",
         { email, password }
       );
       localStorage.setItem("token", response.data.token);

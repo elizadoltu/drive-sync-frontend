@@ -6,11 +6,13 @@ const Maps = () => {
   const mapRef = useRef(null);
   const [error, setError] = useState(null);
   const [mapLoaded, setMapLoaded] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     window.initMap = () => {
       setMapLoaded(true);
     };
+
 
     const loadGoogleMapsScript = () => {
       if (document.getElementById('google-maps-script')) {
@@ -51,6 +53,11 @@ const Maps = () => {
       setError('Failed to initialize map. Please check your API key.');
     }
   }, [mapLoaded]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+  };
 
   const fetchCarLocations = async (mapInstance) => {
     try {

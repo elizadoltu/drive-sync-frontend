@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import API_KEY from '../utils/API_KEY';
+import { useNavigate, Link } from 'react-router-dom';
 
 const Maps = () => {
   const mapRef = useRef(null);

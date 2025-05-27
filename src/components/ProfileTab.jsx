@@ -67,7 +67,6 @@ function ProfileTab({ user, setUser, onLogout, navigate }) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {/* Profile Information */}
       <div className="bg-white overflow-hidden shadow rounded-lg">
         <div className="px-4 py-5 sm:p-6">
           <div className="flex justify-between items-center mb-4">
@@ -174,7 +173,6 @@ function ProfileTab({ user, setUser, onLogout, navigate }) {
         </div>
       </div>
 
-      {/* Account Actions */}
       <div className="bg-white overflow-hidden shadow rounded-lg">
         <div className="px-4 py-5 sm:p-6">
           <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">

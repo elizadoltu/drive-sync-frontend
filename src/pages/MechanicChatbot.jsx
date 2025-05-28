@@ -47,7 +47,7 @@ const MechanicChatbot = () => {
 
   const speakText = async (text) => {
     try {
-      const response = await fetch('http://localhost:3000/api/text-to-speech/audio', {
+      const response = await fetch('https://text-to-speech-dot-cloud-app-455515.lm.r.appspot.com/api/text-to-speech/audio', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text }),

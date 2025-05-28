@@ -1,8 +1,6 @@
 import React from 'react';
 
 const CarForm = ({ 
-  carFormData, 
-  setCarFormData, 
   enrichedCarFormData, 
   setEnrichedCarFormData, 
   handleAddCar 
@@ -17,8 +15,8 @@ const CarForm = ({
             <label className="block text-sm font-medium text-gray-700">Plate Number*</label>
             <input
               type="text"
-              value={carFormData.plateNumber}
-              onChange={(e) => setCarFormData({ ...carFormData, plateNumber: e.target.value })}
+              value={enrichedCarFormData.license_plate}
+              onChange={(e) => setEnrichedCarFormData({ ...enrichedCarFormData, license_plate: e.target.value })}
               required
               className="w-full p-2 border rounded-md"
             />
@@ -28,8 +26,8 @@ const CarForm = ({
             <label className="block text-sm font-medium text-gray-700">Year*</label>
             <input
               type="number"
-              value={carFormData.year}
-              onChange={(e) => setCarFormData({ ...carFormData, year: e.target.value })}
+              value={enrichedCarFormData.year}
+              onChange={(e) => setEnrichedCarFormData({ ...enrichedCarFormData, year: e.target.value })}
               required
               min="1900"
               max={new Date().getFullYear()}
@@ -41,8 +39,8 @@ const CarForm = ({
             <label className="block text-sm font-medium text-gray-700">Brand*</label>
             <input
               type="text"
-              value={carFormData.brand}
-              onChange={(e) => setCarFormData({ ...carFormData, brand: e.target.value })}
+              value={enrichedCarFormData.make}
+              onChange={(e) => setEnrichedCarFormData({ ...enrichedCarFormData, make: e.target.value })}
               required
               className="w-full p-2 border rounded-md"
             />
@@ -52,29 +50,9 @@ const CarForm = ({
             <label className="block text-sm font-medium text-gray-700">Model*</label>
             <input
               type="text"
-              value={carFormData.model}
-              onChange={(e) => setCarFormData({ ...carFormData, model: e.target.value })}
+              value={enrichedCarFormData.model}
+              onChange={(e) => setEnrichedCarFormData({ ...enrichedCarFormData, model: e.target.value })}
               required
-              className="w-full p-2 border rounded-md"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Last Revision Date</label>
-            <input
-              type="date"
-              value={carFormData.lastRevision}
-              onChange={(e) => setCarFormData({ ...carFormData, lastRevision: e.target.value })}
-              className="w-full p-2 border rounded-md"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700">GPS ID</label>
-            <input
-              type="text"
-              value={carFormData.gpsId}
-              onChange={(e) => setCarFormData({ ...carFormData, gpsId: e.target.value })}
               className="w-full p-2 border rounded-md"
             />
           </div>
@@ -85,27 +63,13 @@ const CarForm = ({
               type="number"
               step="0.1"
               min="0"
-              value={carFormData.averageFuelConsumption}
-              onChange={(e) => setCarFormData({ ...carFormData, averageFuelConsumption: e.target.value })}
+              value={enrichedCarFormData.average_fuel_consumption}
+              onChange={(e) => setEnrichedCarFormData({ ...enrichedCarFormData, average_fuel_consumption: e.target.value })}
               required
               className="w-full p-2 border rounded-md"
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Average Distance* (km/year)</label>
-            <input
-              type="number"
-              step="1"
-              min="0"
-              value={carFormData.averageDistanceMade}
-              onChange={(e) => setCarFormData({ ...carFormData, averageDistanceMade: e.target.value })}
-              required
-              className="w-full p-2 border rounded-md"
-            />
-          </div>
-
-          {/* Additional fields from enrichedCarForm */}
           <div>
             <label className="block text-sm font-medium text-gray-700">Fuel Type*</label>
             <select

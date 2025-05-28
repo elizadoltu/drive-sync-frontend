@@ -1,31 +1,44 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
-function Login() {
+function LoginAdmin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState({ text: "", type: "" });
   const navigate = useNavigate();
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setMessage({ text: "", type: "" });
+    
     try {
-      const response = await axios.post(
-        "https://auth-drivesync-ebapcqbegrg4b3fa.polandcentral-01.azurewebsites.net/api/auth/login",
-        { email, password }
+      const response = await fetch(
+        "https://users-dot-cloud-app-455515.lm.r.appspot.com/api/auth/login/admin",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }
       );
-      localStorage.setItem("token", response.data.token);
-      setMessage({ text: "Login successful!", type: "success" });
-      setTimeout(() => navigate("/dashboard"), 1000);
+      
+      const data = await response.json();
+      
+      if (response.ok) {
+        setMessage({ text: "Login successful!", type: "success" });
+        console.log("Admin login successful");
+        localStorage.setItem('token', data.token);
+        navigate('/dashboard');
+      } else {
+        throw new Error(data.message || "Login failed");
+      }
     } catch (error) {
       console.error("Login failed", error);
       setMessage({
-        text:
-          error.response?.data?.message || "Login failed. Please try again.",
+        text: error.message || "Login failed. Please try again.",
         type: "error",
       });
     } finally {
@@ -88,7 +101,7 @@ function Login() {
           </button>
           <div className="flex justify-between mt-2 font-medium">
             <p>Don't have an account?</p>
-            <a href="/register" className="underline-link is--alt">
+            <a href="/admin/register" className="underline-link is--alt">
               Register
             </a>
           </div>
@@ -98,4 +111,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default LoginAdmin;

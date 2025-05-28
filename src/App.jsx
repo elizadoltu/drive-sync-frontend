@@ -1,11 +1,15 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './components/Login';
-import Register from './components/Register';
-import Dashboard from './components/Dashboard';
-// import AdminLogin from './admin/LoginAdmin';
-import MechanicChatbot from './components/MechanicChatbot';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Dashboard from './pages/Dashboard';
+import LandingPage from './LandingPage';
+import MechanicChatbot from './pages/MechanicChatbot';
 import Profile from "./pages/Profile";
-import Maps from './components/Maps';
+import Maps from './pages/Maps';
+import LoginAdmin from './pages/admin/LoginAdmin';
+import LoginDriver from './pages/driver/LoginDriver';
+import RegisterAdmin from './pages/admin/RegisterAdmin';
+import RegisterDriver from './pages/driver/RegisterDriver';
 // import ProfileSettings from "./pages/ProfileSettings";
 // import Reservations from "./pages/Reservations";
 // import Bills from "./pages/Bills";
@@ -20,13 +24,15 @@ function App() {
       
 
         <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/" element={<LandingPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path='/user/profile' element={<Profile />} />
           <Route path='/maps' element={<Maps />} />
           <Route path='/chatbot' element={<MechanicChatbot />} />
-          <Route path='/translate' element={<ExampleComponent />} />
+          <Route path='/admin/login' element={<LoginAdmin />} />
+          <Route path='/driver/login' element={<LoginDriver />} />
+          <Route path='/admin/register' element={<RegisterAdmin />} />
+          <Route path='/driver/register' element={<RegisterDriver />} />
           {/* <Route path='/user/settings' element={<ProfileSettings />} /> */}
           {/* <Route path='/user/bills' element={<Bills />} />
           <Route path='/user/cars' element={<Cars />} />

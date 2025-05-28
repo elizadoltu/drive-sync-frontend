@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Sidebar from '../components/Sidebar';
 
 function Dashboard() {
   const [user, setUser] = useState(null);
@@ -19,9 +20,10 @@ function Dashboard() {
       
       try {
         const userResponse = await axios.get(
-          'https://auth-drivesync-ebapcqbegrg4b3fa.polandcentral-01.azurewebsites.net/api/profile', 
+          'https://users-dot-cloud-app-455515.lm.r.appspot.com/api/profile', 
           { headers }
         );
+        console.log(userResponse.data);
         setUser(userResponse.data.user);
         
         setIsLoading(false);
@@ -34,10 +36,6 @@ function Dashboard() {
     fetchData();
   }, [navigate]);
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    navigate('/');
-  };
 
   if (isLoading) return (
     <div className="flex justify-center items-center h-screen">
@@ -47,29 +45,7 @@ function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex justify-between items-center">
-          <div className="uppercase leading-none">
-            <p className="font-bold">drive sync</p>
-            <p className="opacity-50 text-sm">car management app</p>
-          </div>
-          
-          <div className="flex space-x-4">
-            <Link to="/user/profile" className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100">
-              Profile
-            </Link>
-            <Link to="/dashboard" className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100">
-              Dashboard
-            </Link>
-            <button 
-              onClick={handleLogout}
-              className="px-3 py-2 rounded-md text-sm font-medium text-white bg-[#181818] hover:bg-[#333333]"
-            >
-              Logout
-            </button>
-          </div>
-        </div>
-      </header>
+      <Sidebar />
       
       <main className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
         <div className="mb-8">

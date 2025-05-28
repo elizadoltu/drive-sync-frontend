@@ -8,37 +8,63 @@ const MechanicChatbot = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-
   const sendQuestion = async () => {
     const trimmedQuestion = question.trim();
     if (!trimmedQuestion) return;
 
-    // Append the user's message.
     setConversation(prev => [...prev, { role: 'user', text: trimmedQuestion }]);
     setQuestion('');
     setLoading(true);
 
     try {
-      const response = await fetch('https://chatbot-dot-cloud-app-455515.lm.r.appspot.com/api/mechanic-chat', {
+      const response = await fetch(`https://chatbot-dot-cloud-app-455515.lm.r.appspot.com/api/mechanic-chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question: trimmedQuestion })
       });
-      
+
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      
+
       const data = await response.json();
       const answer = data.answer ? data.answer : 'Sorry, no answer received.';
 
-      // Append the answer.
-      setConversation(prev => [...prev, { role: 'mechanic', text: answer }]);
+      setConversation(prev => [
+        ...prev,
+        { role: 'mechanic', text: answer }
+      ]);
     } catch (error) {
-      setConversation(prev => [...prev, { role: 'mechanic', text: `Error: ${error.message}` }]);
+      setConversation(prev => [
+        ...prev,
+        { role: 'mechanic', text: `Error: ${error.message}` }
+      ]);
       console.error('Error sending question:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const speakText = async (text) => {
+    try {
+      const response = await fetch('http://localhost:3000/api/text-to-speech/audio', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Server error: ' + response.status);
+      }
+
+      const audioBuffer = await response.arrayBuffer();
+      const audioBlob = new Blob([audioBuffer], { type: 'audio/mpeg' });
+      const audioUrl = URL.createObjectURL(audioBlob);
+
+      const audioPlayer = new Audio(audioUrl);
+      audioPlayer.play();
+    } catch (error) {
+      console.error('Error with text-to-speech:', error);
     }
   };
 
@@ -62,7 +88,7 @@ const MechanicChatbot = () => {
               {conversation.length === 0 ? (
                 <div className="text-center py-8">
                   <svg className="mx-auto h-12 w-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012 2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                   </svg>
                   <h3 className="mt-2 text-sm font-medium text-gray-600">No messages yet</h3>
                   <p className="mt-1 text-sm text-gray-500">Start the conversation to get car advice</p>
@@ -83,13 +109,21 @@ const MechanicChatbot = () => {
                       }`}
                     >
                       <span className="block text-xs font-medium mb-1">
-                        {msg.role === 'user' ? 'You' : msg.role === 'loading' ? 'Mechanic' : 'Mechanic'}
+                        {msg.role === 'user' ? 'You' : 'Mechanic'}
                       </span>
                       <p style={{ fontStyle: msg.role === 'loading' ? 'italic' : 'normal' }}>
-                        {msg.role === 'user' ? msg.text.replace('You: ', '') : 
-                         msg.role === 'mechanic' ? msg.text.replace('Mechanic: ', '') : 
-                         msg.text}
+                        {msg.text}
                       </p>
+
+                      {/* SPEAK BUTTON - Now shows for all mechanic messages */}
+                      {msg.role === 'mechanic' && (
+                        <button
+                          onClick={() => speakText(msg.text)}
+                          className="mt-2 text-blue-600 underline text-sm hover:text-blue-800"
+                        >
+                          🔊 Speak
+                        </button>
+                      )}
                     </div>
                   </div>
                 ))

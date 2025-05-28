@@ -12,6 +12,7 @@ import Maps from './components/Maps';
 // // import AdminDashboard from "./admin/AdminDashboard";
 // import Cars from "./pages/Cars";
 import "./styles/underline-animation.css";
+import ExampleComponent from './pages/Translate';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path='/user/profile' element={<Profile />} />
           <Route path='/maps' element={<Maps />} />
           <Route path='/chatbot' element={<MechanicChatbot />} />
+          <Route path='/translate' element={<ExampleComponent />} />
           {/* <Route path='/user/settings' element={<ProfileSettings />} /> */}
           {/* <Route path='/user/bills' element={<Bills />} />
           <Route path='/user/cars' element={<Cars />} />

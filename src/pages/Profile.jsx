@@ -83,6 +83,20 @@ function Profile() {
   };
 
   const fetchUserCars = async () => {
+    // const token = localStorage.getItem("token");
+    // try {
+    //   const response = await axios.get(
+    //     "https://cars-drivesync-bfhxfncpb8a9e5hc.polandcentral-01.azurewebsites.net/cars",
+    //     { headers: { Authorization: `Bearer ${token}` } }
+    //   );
+    //   const filteredCars = response.data.filter(
+    //     (car) => car.ownerId === userId
+    //   );
+    //   setUserCars(filteredCars);
+    // } catch (error) {
+    //   console.error("Failed to fetch cars", error);
+    // }
+
     const token = localStorage.getItem("token");
     try {
       const response = await axios.get(
@@ -175,7 +189,8 @@ function Profile() {
       };
 
       await axios.post(
-        "https://firestore-service-dot-cloud-app-455515.lm.r.appspot.com/api/cars",
+        // "https://firestore-service-dot-cloud-app-455515.lm.r.appspot.com/api/cars",
+        "https://azure-db-drivesync.azurewebsites.net/api/azureCars",
         enrichedCarData
       );
 

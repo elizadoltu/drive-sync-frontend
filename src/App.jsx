@@ -10,6 +10,7 @@ import LoginAdmin from './pages/admin/LoginAdmin';
 import LoginDriver from './pages/driver/LoginDriver';
 import RegisterAdmin from './pages/admin/RegisterAdmin';
 import RegisterDriver from './pages/driver/RegisterDriver';
+import Maintenance from './pages/Maintenance';
 // import ProfileSettings from "./pages/ProfileSettings";
 // import Reservations from "./pages/Reservations";
 // import Bills from "./pages/Bills";
@@ -33,6 +34,7 @@ function App() {
           <Route path='/driver/login' element={<LoginDriver />} />
           <Route path='/admin/register' element={<RegisterAdmin />} />
           <Route path='/driver/register' element={<RegisterDriver />} />
+          <Route path='/maintenance' element={<Maintenance />} />
           {/* <Route path='/user/settings' element={<ProfileSettings />} /> */}
           {/* <Route path='/user/bills' element={<Bills />} />
           <Route path='/user/cars' element={<Cars />} />

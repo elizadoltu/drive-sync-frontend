@@ -10,10 +10,7 @@ function MyCarsTab() {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        "https://cars-dot-cloud-app-455515.lm.r.appspot.com/api/cars",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+        "https://firestore-service-dot-cloud-app-455515.lm.r.appspot.com/api/cars",
       );
       setCars(response.data.cars);
     } catch (error) {
@@ -63,15 +60,14 @@ function MyCarsTab() {
         {cars.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {cars.map((car) => (
-              <div key={car._id} className="border border-gray-200 rounded-lg p-4">
+              <div key={car.id} className="border border-gray-200 rounded-lg p-4">
                 <h4 className="font-semibold text-lg">
                   {car.make} {car.model}
                 </h4>
                 <p className="text-gray-600">Year: {car.year}</p>
-                <p className="text-gray-600">Color: {car.color}</p>
-                <p className="text-gray-600">License: {car.licensePlate}</p>
-                <p className="text-gray-600">Status: {car.status}</p>
-                <p className="text-gray-600">Mileage: {car.mileage} miles</p>
+                <p className="text-gray-600">License: {car.license_plate}</p>
+                <p className="text-gray-600">Status: {car.status && car.status.trim() ? car.status : 'N/A'}</p>
+                <p className="text-gray-600">Mileage: {car.total_mileage} miles</p> \
               </div>
             ))}
           </div>

@@ -77,7 +77,6 @@ function AddCarTab() {
       });
 
       alert("Car added successfully!");
-      fetchUserCars();
       setActiveTab("viewCars");
     } catch (error) {
       console.error("Failed to add car", error);

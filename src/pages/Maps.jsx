@@ -20,7 +20,7 @@ const Maps = () => {
       if (document.getElementById('google-maps-script')) return;
       const script = document.createElement('script');
       script.id = 'google-maps-script';
-      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCkP18H7b4PwQDyRGCt7-eW91lIfQu5nS8&libraries=marker&callback=initMap&loading=async`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&libraries=marker&callback=initMap&loading=async`;
       script.async = true;
       script.defer = true;
       document.head.appendChild(script);

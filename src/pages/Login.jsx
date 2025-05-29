@@ -20,7 +20,7 @@ function Login() {
       );
       localStorage.setItem("token", response.data.token);
       setMessage({ text: "Login successful!", type: "success" });
-      setTimeout(() => navigate("/dashboard"), 1000);
+      setTimeout(() => navigate("/maintenance"), 1000);
     } catch (error) {
       console.error("Login failed", error);
       setMessage({

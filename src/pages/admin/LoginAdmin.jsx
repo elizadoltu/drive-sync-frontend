@@ -31,7 +31,7 @@ function LoginAdmin() {
         setMessage({ text: "Login successful!", type: "success" });
         console.log("Admin login successful");
         localStorage.setItem('token', data.token);
-        navigate('/dashboard');
+        navigate('/maps');
       } else {
         throw new Error(data.message || "Login failed");
       }

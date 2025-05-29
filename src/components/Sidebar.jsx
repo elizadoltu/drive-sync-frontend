@@ -29,13 +29,13 @@ const Sidebar = () => {
                     )}
                   </Link>
                   <Link 
-                    to="/dashboard" 
+                    to="/maintenance" 
                     className={`px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 relative ${
-                      location.pathname === '/dashboard' ? 'nav-active' : ''
+                      location.pathname === '/maintenance' ? 'nav-active' : ''
                     }`}
                   >
-                    Dashboard
-                    {location.pathname === '/dashboard' && (
+                    Maintenance
+                    {location.pathname === '/maintenance' && (
                       <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#050505]"></span>
                     )}
                   </Link>

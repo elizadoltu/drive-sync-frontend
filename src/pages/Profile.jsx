@@ -28,14 +28,14 @@ function Profile() {
     } catch (error) {
       console.error("Failed to fetch profile", error);
       localStorage.removeItem("token");
-      navigate("/login");
+      navigate("/");
     }
   };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
-      navigate("/login");
+      navigate("/");
       return;
     }
 
@@ -43,7 +43,6 @@ function Profile() {
       const decoded = jwtDecode(token);
       setUserId(decoded.sub || decoded._id);
       setRole(decoded.role);
-      console.log("Decoded token:", decoded);
 
       fetchProfile(token);
       setIsLoading(false);
@@ -69,7 +68,7 @@ function Profile() {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    navigate("/login");
+    navigate("/");
   };
 
   if (isLoading || !role) {

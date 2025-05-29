@@ -30,9 +30,8 @@ function LoginDriver() {
       
       if (response.ok) {
         setMessage({ text: "Login successful!", type: "success" });
-        console.log("Driver login successful");
         localStorage.setItem('token', data.token);
-        navigate('/dashboard');
+        navigate('/maps');
       } else {
         throw new Error(data.message || "Login failed");
       }

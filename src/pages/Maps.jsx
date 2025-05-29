@@ -231,10 +231,10 @@ const Maps = () => {
               <h3 className="text-lg font-semibold">
                 {userRole === 'admin' ? `${item.make || 'Unknown'} ${item.model || ''}` : `Package ${item.id}`}
               </h3>
-              <p className="text-sm text-gray-500">
+              {/* <p className="text-sm text-gray-500">
                 {userRole === 'admin' ? `ID: ${item.id}` : `${item.recipientName}`}
               </p>
-              <p className="text-sm text-gray-600">Status: {item.status}</p>
+              <p className="text-sm text-gray-600">Status: {item.status}</p> */}
             </div>
           ))}
         </div>

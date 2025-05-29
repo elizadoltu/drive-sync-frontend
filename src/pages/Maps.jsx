@@ -81,7 +81,7 @@ const Maps = () => {
 
     items.forEach(item => {
       if (!item.lat || !item.lng) return;
-      const position = { lat: item.lat, lng: item.lng };
+      const position = { lat: item.latitude, lng: item.longitude };
       bounds.extend(position);
 
       const icon = type === 'car'

@@ -80,7 +80,7 @@ const Maps = () => {
     const newMarkerMap = {};
 
     items.forEach(item => {
-      if (!item.lat || !item.lng) return;
+      if (!item.latitude || !item.longitude) return;
       const position = { lat: item.latitude, lng: item.longitude };
       bounds.extend(position);
 

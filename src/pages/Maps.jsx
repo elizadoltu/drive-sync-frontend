@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import API_KEY from '../utils/API_KEY';
 import Sidebar from '../components/Sidebar';
+import { jwtDecode } from 'jwt-decode';
 
 const Maps = () => {
   const mapRef = useRef(null);
@@ -56,6 +57,18 @@ const Maps = () => {
   };
 
   const fetchPackageLocations = async (map) => {
+    let userCarLicensePlate = null;
+    try {
+      const token = localStorage.getItem("token");
+      if (token) {
+        const decodedToken = jwtDecode(token);
+        userCarLicensePlate = decodedToken.carId;
+        console.log("User's car license plate from token:", userCarLicensePlate);
+      }
+    } catch (e) {
+      console.error("Failed to decode token or get carId:", e);
+    }
+
     try {
       setLoading(true);
       const res = await fetch('https://trip-service-dot-cloud-app-455515.lm.r.appspot.com/api/trips');
@@ -109,14 +122,33 @@ const Maps = () => {
         setPackages(data);
         placeMarkers(map, data, 'package');
       } else {
-        console.error('Fetched package data is not an array:', data);
-        setPackages([]); // Default to empty array if data is not an array
-        setError('Received invalid package data format.');
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          processedPackages = data;
+        } else {
+          console.error('Fetched package data is not an array:', data);
+          setError('Received invalid package data format.');
+          processedPackages = [];
+        }
       }
+
+      let finalPackages = processedPackages;
+      if (userCarLicensePlate && userRole !== 'admin') { 
+        finalPackages = processedPackages.filter(
+          (pkg) => pkg.license_plate === userCarLicensePlate
+        );
+        console.log(`Filtered packages for car ${userCarLicensePlate}:`, finalPackages);
+      } else if (userRole !== 'admin' && !userCarLicensePlate) {
+        console.warn("No carId found in token for driver, showing all packages or none based on policy.");
+      }
+      
+      setPackages(finalPackages);
+      placeMarkers(map, finalPackages, 'package');
+
     } catch (err) {
-      console.error('Error fetching package locations:', err);
-      setError(err.message || 'Failed to fetch package data.');
-      setPackages([]); // Ensure packages is an array on error
+      console.error('Error processing package locations:', err);
+      setError(err.message || 'Failed to process package data.');
+      setPackages([]); 
     }
     setLoading(false);
   };

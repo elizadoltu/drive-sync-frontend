@@ -11,16 +11,25 @@ function MyCarsTab() {
     try {
       const token = localStorage.getItem("token");
       const decodedToken = jwtDecode(token);
-      console.log("Decoded token:", decodedToken.company);
+      console.log("Decoded token:", decodedToken);
       const userCompany = decodedToken.company;
+      const carId = decodedToken.carId || null;
+      console.log("Car ID from token:", carId);
+      console.log("User company from token:", userCompany);
       const response = await axios.get(
         "https://firestore-service-dot-cloud-app-455515.lm.r.appspot.com/api/cars",
       );
       console.log("Fetched cars:", response.data);
       if (Array.isArray(response.data)) {
-        const filteredCars = response.data.filter(car => car.company_id === userCompany);
-        console.log("Filtered cars for company", userCompany, ":", filteredCars);
-        setCars(filteredCars);
+        if (userCompany != null) {
+          const filteredCars = response.data.filter(car => car.company_id === userCompany);
+          console.log("Filtered cars for company", userCompany, ":", filteredCars);
+          setCars(filteredCars);
+        } else {
+          const filteredCars = response.data.filter(car => car.license_plate === carId);
+          console.log("Filtered cars for car ID", carId, ":", filteredCars);
+          setCars(filteredCars);
+        }
       } else {
         console.error("Fetched data is not an array:", response.data);
         setCars([]);
@@ -52,7 +61,7 @@ function MyCarsTab() {
       await Promise.all([fetchCars()]);
       setIsLoading(false);
     };
-    
+
     loadData();
   }, []);
 

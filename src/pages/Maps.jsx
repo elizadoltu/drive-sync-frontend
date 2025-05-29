@@ -74,12 +74,12 @@ const Maps = () => {
       const bounds = new window.google.maps.LatLngBounds();
       
       cars.forEach(car => {
-        if (car.lat === undefined || car.lng === undefined) {
+        if (car.latitude === undefined || car.longitude === undefined) {
           console.warn('Car missing location data:', car);
           return;
         }
 
-        const position = { lat: car.lat, lng: car.lng };
+        const position = { lat: car.latitude, lng: car.longitude };
         bounds.extend(position);
         
         try {

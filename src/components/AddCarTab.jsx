@@ -80,7 +80,6 @@ function AddCarTab() {
       });
 
       alert("Car added successfully!");
-      setActiveTab("viewCars");
     } catch (error) {
       console.error("Failed to add car", error);
       alert(

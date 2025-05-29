@@ -106,7 +106,7 @@ function AddDestinationTab() {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        "https://users-dot-cloud-app-455515.lm.r.appspot.com/api/destinations", 
+        "https://users-dot-cloud-app-455515.lm.r.appspot.com/api/destinations", // Adjust API endpoint as needed
         destinationFormData,
         {
           headers: { Authorization: `Bearer ${token}` },

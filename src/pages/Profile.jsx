@@ -7,6 +7,7 @@ import ProfileTab from "../components/ProfileTab";
 import MyCarsTab from "../components/MyCarsTab";
 import AddCarTab from "../components/AddCarTab";
 import UploadCarsTab from "../components/UploadCarsTab";
+import AddDestinationTab from "../components/AddDestinationTab";
 
 function Profile() {
   const [user, setUser] = useState(null);
@@ -145,6 +146,16 @@ function Profile() {
                 >
                   Upload Cars
                 </button>
+                <button
+                  onClick={() => setActiveTab("addDestination")}
+                  className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                    activeTab === "addDestination"
+                      ? "border-blue-500 text-blue-600"
+                      : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                  }`}
+                >
+                  Add Destination
+                </button>
               </>
             )}
           </nav>
@@ -170,6 +181,10 @@ function Profile() {
 
         {activeTab === "uploadCars" && role === "admin" && (
           <UploadCarsTab />
+        )}
+
+        {activeTab === "addDestination" && role === "admin" && (
+          <AddDestinationTab />
         )}
       </main>
     </div>

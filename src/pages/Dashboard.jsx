@@ -23,7 +23,6 @@ function Dashboard() {
           'https://users-dot-cloud-app-455515.lm.r.appspot.com/api/profile', 
           { headers }
         );
-        console.log(userResponse.data);
         setUser(userResponse.data.user);
         
         setIsLoading(false);

@@ -43,7 +43,6 @@ function Profile() {
       const decoded = jwtDecode(token);
       setUserId(decoded.sub || decoded._id);
       setRole(decoded.role);
-      console.log("Decoded token:", decoded);
 
       fetchProfile(token);
       setIsLoading(false);

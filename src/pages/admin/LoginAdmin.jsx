@@ -29,7 +29,6 @@ function LoginAdmin() {
       
       if (response.ok) {
         setMessage({ text: "Login successful!", type: "success" });
-        console.log("Admin login successful");
         localStorage.setItem('token', data.token);
         navigate('/maps');
       } else {

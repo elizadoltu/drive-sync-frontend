@@ -63,8 +63,9 @@ const Maintenance = () => {
                 // assume plate lives at decoded.plate || decoded.registrationNumber
                 setFormData((prev) => ({
                     ...prev,
-                    carId: decoded.registrationNumber || decoded.plate || '',
+                    carId: decoded.carId,
                 }));
+                fetchIssues(token, decoded.carId);
             } else {
                 fetchIssues(token); // admin view
             }
@@ -83,21 +84,24 @@ const Maintenance = () => {
         return () => document.removeEventListener('click', handleClickOutside);
     }, []);
 
-    const fetchIssues = async (token) => {
+    const fetchIssues = async (token, carId = null) => {
         try {
             setIssuesLoading(true);
             const { data } = await axios.get(
                 'https://maintenance-dot-cloud-app-455515.lm.r.appspot.com/api/maintenance',
                 { headers: { Authorization: `Bearer ${token}` } }
             );
-            setIssues(data);
-            console.log(data);
+
+            const filtered = carId ? data.filter((issue) => issue.carId === carId) : data;
+
+            setIssues(filtered);
         } catch (err) {
             console.error('Fetch issues error', err);
         } finally {
             setIssuesLoading(false);
         }
     };
+
 
     /* ── Form helpers ────────────────────────────────────────── */
     const handleChange = (e) => {
@@ -385,6 +389,24 @@ const Maintenance = () => {
                             </div>
                         </form>
                     </div>
+                    {role === 'driver' && issues.length > 0 && (
+                        <div className="mt-8">
+                            <h2 className="text-xl font-semibold mb-4 text-gray-900">Your Reported Issues</h2>
+                            <ul className="space-y-4">
+                                {issues.map((issue) => (
+                                    <li key={issue._id} className="p-4 border border-gray-200 rounded shadow-sm">
+                                        <div className="flex justify-between">
+                                            <span className="font-medium capitalize">{issue.category}</span>
+                                            <span className="text-sm text-gray-600">{new Date(issue.createdAt).toLocaleDateString()}</span>
+                                        </div>
+                                        <p className="text-gray-700 mt-2">{issue.description}</p>
+                                        <div className="mt-2 text-sm text-gray-500">Status: {issue.status}</div>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+
 
                     {/* ── ADMIN TABLE ── */}
                     {role === 'admin' && (
@@ -559,8 +581,8 @@ const Maintenance = () => {
                                                                                         disabled={issue.status === status}
                                                                                         onClick={() => updateStatus(issue._id, status)}
                                                                                         className={`w-full text-left px-4 py-3 text-sm transition-colors flex items-center justify-between ${issue.status === status
-                                                                                                ? 'text-gray-400 cursor-not-allowed bg-gray-50'
-                                                                                                : 'text-gray-700 hover:bg-blue-50 hover:text-blue-700'
+                                                                                            ? 'text-gray-400 cursor-not-allowed bg-gray-50'
+                                                                                            : 'text-gray-700 hover:bg-blue-50 hover:text-blue-700'
                                                                                             }`}
                                                                                     >
                                                                                         <span>{status.replace('_', ' ').charAt(0).toUpperCase() + status.replace('_', ' ').slice(1)}</span>

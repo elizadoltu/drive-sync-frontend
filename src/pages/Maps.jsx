@@ -440,7 +440,19 @@ const Maps = () => {
               <p className="text-gray-600 text-sm">Loading map data...</p>
             </div>
           )}
-          
+          <div className="absolute top-4 left-4 bg-white p-2 rounded shadow">
+            <p className="text-xs text-gray-400">Role</p>
+            <div className="flex gap-2">
+              <button
+                onClick={() => switchRole('admin')}
+                className={`px-2 py-1 rounded text-xs ${userRole === 'admin' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-600'}`}
+              >Admin</button>
+              <button
+                onClick={() => switchRole('driver')}
+                className={`px-2 py-1 rounded text-xs ${userRole === 'driver' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-600'}`}
+              >Driver</button>
+            </div>
+          </div>
         </div>
 
         <div className="w-1/3 h-full overflow-y-auto p-4 bg-white border-l border-gray-200">

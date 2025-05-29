@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import { data } from "react-router-dom";
 
 function AddDestinationTab() {
   const [destinationFormData, setDestinationFormData] = useState({
@@ -105,9 +106,14 @@ function AddDestinationTab() {
 
     try {
       const token = localStorage.getItem("token");
+      const dataToSend = {
+        license_plate: destinationFormData.carId,
+        longitude: destinationFormData.longitude,
+        latitude: destinationFormData.latitude,
+      };
       const response = await axios.post(
-        "https://users-dot-cloud-app-455515.lm.r.appspot.com/api/destinations", // Adjust API endpoint as needed
-        destinationFormData,
+        "https://trip-service-dot-cloud-app-455515.lm.r.appspot.com/api/trips",
+        dataToSend,
         {
           headers: { Authorization: `Bearer ${token}` },
         }

@@ -105,18 +105,16 @@ function AddDestinationTab() {
     }
 
     try {
+      const selectedCar = cars.find(car => (car._id || car.id) === destinationFormData.carId);
       const token = localStorage.getItem("token");
       const dataToSend = {
-        license_plate: destinationFormData.carId,
+        license_plate: selectedCar.licensePlate || selectedCar.license_plate,
         longitude: destinationFormData.longitude,
         latitude: destinationFormData.latitude,
       };
       const response = await axios.post(
         "https://trip-service-dot-cloud-app-455515.lm.r.appspot.com/api/trips",
-        dataToSend,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+        dataToSend
       );
 
       setMessage({ type: "success", text: "Destination added successfully!" });

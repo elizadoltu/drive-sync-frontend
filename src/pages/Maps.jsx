@@ -58,7 +58,7 @@ const Maps = () => {
   const fetchPackageLocations = async (map) => {
     try {
       setLoading(true);
-      const res = await fetch('https://maps-dot-cloud-app-455515.lm.r.appspot.com/api/packages');
+      const res = await fetch('https://maps-dot-cloud-app-455515.lm.r.appspot.com/api/trips');
       if (!res.ok) {
         const mockPackages = [
           {
@@ -100,6 +100,10 @@ const Maps = () => {
         setPackages(mockPackages);
         placeMarkers(map, mockPackages, 'package');
         setLoading(false);
+        return;
+      } else {
+        setPackages(res.json());
+        placeMarkers(map, await res.json(), 'package');
         return;
       }
       

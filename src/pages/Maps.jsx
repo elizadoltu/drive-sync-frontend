@@ -59,6 +59,7 @@ const Maps = () => {
     try {
       setLoading(true);
       const res = await fetch('https://trip-service-dot-cloud-app-455515.lm.r.appspot.com/api/trips');
+      console.log('Response :', res);
       if (!res.ok) {
         const mockPackages = [
           {
@@ -101,12 +102,8 @@ const Maps = () => {
         placeMarkers(map, mockPackages, 'package');
         setLoading(false);
         return;
-      } else {
-        setPackages(res.json());
-        placeMarkers(map, await res.json(), 'package');
-        return;
       }
-      
+            
       const data = await res.json();
       setPackages(data);
       placeMarkers(map, data, 'package');

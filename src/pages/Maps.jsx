@@ -103,12 +103,20 @@ const Maps = () => {
         setLoading(false);
         return;
       }
-            
+
       const data = await res.json();
-      setPackages(data);
-      placeMarkers(map, data, 'package');
+      if (Array.isArray(data)) {
+        setPackages(data);
+        placeMarkers(map, data, 'package');
+      } else {
+        console.error('Fetched package data is not an array:', data);
+        setPackages([]); // Default to empty array if data is not an array
+        setError('Received invalid package data format.');
+      }
     } catch (err) {
-      setError('Failed to fetch package data.');
+      console.error('Error fetching package locations:', err);
+      setError(err.message || 'Failed to fetch package data.');
+      setPackages([]); // Ensure packages is an array on error
     }
     setLoading(false);
   };
@@ -123,20 +131,20 @@ const Maps = () => {
 
       const icon = type === 'car'
         ? {
-            path: window.google.maps.SymbolPath.CIRCLE,
-            fillColor: item.status === 'active' ? 'green' : 'red',
-            fillOpacity: 1,
-            strokeWeight: 0,
-            scale: 8
-          }
+          path: window.google.maps.SymbolPath.CIRCLE,
+          fillColor: item.status === 'active' ? 'green' : 'red',
+          fillOpacity: 1,
+          strokeWeight: 0,
+          scale: 8
+        }
         : {
-            path: window.google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-            fillColor: item.status === 'delivered' ? '#10B981' : item.status === 'in-transit' ? '#3B82F6' : '#F59E0B',
-            fillOpacity: 0.9,
-            strokeColor: '#fff',
-            strokeWeight: 2,
-            scale: 8
-          };
+          path: window.google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+          fillColor: item.status === 'delivered' ? '#10B981' : item.status === 'in-transit' ? '#3B82F6' : '#F59E0B',
+          fillOpacity: 0.9,
+          strokeColor: '#fff',
+          strokeWeight: 2,
+          scale: 8
+        };
 
       const marker = new window.google.maps.Marker({
         position,
@@ -217,9 +225,8 @@ const Maps = () => {
             <div
               key={item.id}
               onClick={() => focusOnItem(item.id)}
-              className={`mb-3 p-4 rounded border shadow-sm cursor-pointer transition ${
-                selectedItem === item.id ? 'bg-blue-50 border-blue-500' : 'bg-white hover:border-gray-300'
-              }`}
+              className={`mb-3 p-4 rounded border shadow-sm cursor-pointer transition ${selectedItem === item.id ? 'bg-blue-50 border-blue-500' : 'bg-white hover:border-gray-300'
+                }`}
             >
               <h3 className="text-lg font-semibold">
                 {userRole === 'admin' ? `${item.make || 'Unknown'} ${item.model || ''}` : `Package ${item.id}`}

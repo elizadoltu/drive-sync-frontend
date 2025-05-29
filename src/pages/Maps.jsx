@@ -60,12 +60,49 @@ const Maps = () => {
       setLoading(true);
       const res = await fetch('https://maps-dot-cloud-app-455515.lm.r.appspot.com/api/packages');
       if (!res.ok) {
-        const mockPackages = [/* mock data here */];
+        const mockPackages = [
+          {
+            id: 1,
+            latitude: 37.7749,
+            longitude: -122.4194,
+            recipientName: 'Alice Johnson',
+            status: 'in-transit',
+          },
+          {
+            id: 2,
+            latitude: 34.0522,
+            longitude: -118.2437,
+            recipientName: 'Bob Smith',
+            status: 'pending',
+          },
+          {
+            id: 3,
+            latitude: 40.7128,
+            longitude: -74.006,
+            recipientName: 'Carol Davis',
+            status: 'delivered',
+          },
+          {
+            id: 4,
+            latitude: 41.8781,
+            longitude: -87.6298,
+            recipientName: 'David Lee',
+            status: 'in-transit',
+          },
+          {
+            id: 5,
+            latitude: 29.7604,
+            longitude: -95.3698,
+            recipientName: 'Eva Martinez',
+            status: 'pending',
+          },
+        ];
         setPackages(mockPackages);
         placeMarkers(map, mockPackages, 'package');
         setLoading(false);
         return;
       }
+      
       const data = await res.json();
       setPackages(data);
       placeMarkers(map, data, 'package');

@@ -73,7 +73,11 @@ const Maps = () => {
       setLoading(true);
       const res = await fetch('https://trip-service-dot-cloud-app-455515.lm.r.appspot.com/api/trips');
       console.log('Response :', res);
+
+      let processedPackages = [];
+
       if (!res.ok) {
+        console.warn(`Failed to fetch package locations: Status ${res.status}. Using mock data.`);
         const mockPackages = [
           {
             id: 1,
@@ -81,6 +85,7 @@ const Maps = () => {
             longitude: -122.4194,
             recipientName: 'Alice Johnson',
             status: 'in-transit',
+            license_plate: 'CAR123', // Added license_plate for mock data
           },
           {
             id: 2,
@@ -88,6 +93,7 @@ const Maps = () => {
             longitude: -118.2437,
             recipientName: 'Bob Smith',
             status: 'pending',
+            license_plate: 'CAR456', // Added license_plate
           },
           {
             id: 3,
@@ -95,6 +101,7 @@ const Maps = () => {
             longitude: -74.006,
             recipientName: 'Carol Davis',
             status: 'delivered',
+            license_plate: 'CAR123', // Added license_plate
           },
           {
             id: 4,
@@ -102,6 +109,7 @@ const Maps = () => {
             longitude: -87.6298,
             recipientName: 'David Lee',
             status: 'in-transit',
+            license_plate: 'XYZ789', // Example for a different car
           },
           {
             id: 5,
@@ -109,18 +117,12 @@ const Maps = () => {
             longitude: -95.3698,
             recipientName: 'Eva Martinez',
             status: 'pending',
+            license_plate: 'CAR456', // Added license_plate
           },
         ];
-        setPackages(mockPackages);
-        placeMarkers(map, mockPackages, 'package');
-        setLoading(false);
-        return;
-      }
-
-      const data = await res.json();
-      if (Array.isArray(data)) {
-        setPackages(data);
-        placeMarkers(map, data, 'package');
+        processedPackages = mockPackages;
+        // Optionally set an error to inform the user about using mock data
+        // setError(`Could not fetch live package data (Status: ${res.status}). Displaying sample data.`);
       } else {
         const data = await res.json();
         if (Array.isArray(data)) {
@@ -132,14 +134,17 @@ const Maps = () => {
         }
       }
 
+      // Filter packages if a userCarLicensePlate is available
       let finalPackages = processedPackages;
-      if (userCarLicensePlate && userRole !== 'admin') { 
+      if (userCarLicensePlate && userRole !== 'admin') { // Only filter if not admin and carId is present
         finalPackages = processedPackages.filter(
           (pkg) => pkg.license_plate === userCarLicensePlate
         );
         console.log(`Filtered packages for car ${userCarLicensePlate}:`, finalPackages);
       } else if (userRole !== 'admin' && !userCarLicensePlate) {
         console.warn("No carId found in token for driver, showing all packages or none based on policy.");
+        // Depending on policy, you might want to show no packages if carId is expected but missing
+        // finalPackages = []; 
       }
       
       setPackages(finalPackages);
@@ -148,7 +153,7 @@ const Maps = () => {
     } catch (err) {
       console.error('Error processing package locations:', err);
       setError(err.message || 'Failed to process package data.');
-      setPackages([]); 
+      setPackages([]); // Ensure packages is an array on error
     }
     setLoading(false);
   };

@@ -1,16 +1,17 @@
 import React from 'react';
 
-const CarForm = ({ 
-  enrichedCarFormData, 
-  setEnrichedCarFormData, 
-  handleAddCar 
+const CarForm = ({
+  enrichedCarFormData,
+  setEnrichedCarFormData,
+  handleAddCar
 }) => {
   return (
     <div className="bg-white overflow-hidden shadow rounded-lg">
       <div className="px-4 py-5 sm:p-6">
         <h2 className="text-lg font-medium text-gray-900 mb-4">Add New Car</h2>
-        
+
         <form onSubmit={handleAddCar} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Row 1 */}
           <div>
             <label className="block text-sm font-medium text-gray-700">Plate Number*</label>
             <input
@@ -35,6 +36,7 @@ const CarForm = ({
             />
           </div>
 
+          {/* Row 2 */}
           <div>
             <label className="block text-sm font-medium text-gray-700">Brand*</label>
             <input
@@ -57,6 +59,7 @@ const CarForm = ({
             />
           </div>
 
+          {/* Row 3 */}
           <div>
             <label className="block text-sm font-medium text-gray-700">Average Fuel Consumption* (L/100km)</label>
             <input
@@ -87,8 +90,9 @@ const CarForm = ({
             </select>
           </div>
 
+          {/* Row 4 */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">CO2 Emission Rate (g/km)</label>
+            <label className="block text-sm font-medium text-gray-700">CO2 Emission Rate (g/km)*</label>
             <input
               type="number"
               step="0.1"
@@ -99,15 +103,43 @@ const CarForm = ({
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Current Location</label>
-            <input
-              type="text"
-              value={enrichedCarFormData.current_location}
-              onChange={(e) => setEnrichedCarFormData({ ...enrichedCarFormData, current_location: e.target.value })}
-              className="w-full p-2 border rounded-md"
-              placeholder="City, Country"
-            />
+          {/* Group Longitude and Latitude together in a single logical "column" or 'div' to ensure they stack */}
+          <div className="grid grid-cols-1 gap-4"> {/* This new div will act as a single column within the main 2-column grid */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Longitude</label>
+              <input
+                type="number"
+                step="any"
+                value={enrichedCarFormData.current_location?.lng || ''}
+                onChange={(e) => setEnrichedCarFormData({
+                  ...enrichedCarFormData,
+                  current_location: {
+                    ...enrichedCarFormData.current_location,
+                    lng: parseFloat(e.target.value) || null
+                  }
+                })}
+                className="w-full p-2 border rounded-md"
+                placeholder="e.g., -118.2437"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Latitude</label>
+              <input
+                type="number"
+                step="any"
+                value={enrichedCarFormData.current_location?.lat || ''}
+                onChange={(e) => setEnrichedCarFormData({
+                  ...enrichedCarFormData,
+                  current_location: {
+                    ...enrichedCarFormData.current_location,
+                    lat: parseFloat(e.target.value) || null
+                  }
+                })}
+                className="w-full p-2 border rounded-md"
+                placeholder="e.g., 34.0522"
+              />
+            </div>
           </div>
 
           <div>

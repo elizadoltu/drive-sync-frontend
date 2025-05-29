@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 function MyCarsTab() {
   const [cars, setCars] = useState([]);
@@ -9,34 +10,46 @@ function MyCarsTab() {
   const fetchCars = async () => {
     try {
       const token = localStorage.getItem("token");
+      const decodedToken = jwtDecode(token);
+      console.log("Decoded token:", decodedToken.company);
+      const userCompany = decodedToken.company;
       const response = await axios.get(
         "https://firestore-service-dot-cloud-app-455515.lm.r.appspot.com/api/cars",
       );
-      setCars(response.data.cars);
+      console.log("Fetched cars:", response.data);
+      if (Array.isArray(response.data)) {
+        const filteredCars = response.data.filter(car => car.company_id === userCompany);
+        console.log("Filtered cars for company", userCompany, ":", filteredCars);
+        setCars(filteredCars);
+      } else {
+        console.error("Fetched data is not an array:", response.data);
+        setCars([]);
+      }
     } catch (error) {
       console.error("Failed to fetch cars", error);
+      setCars([]);
     }
   };
 
-  const fetchSpeedWarnings = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await axios.get(
-        "https://cars-dot-cloud-app-455515.lm.r.appspot.com/api/speed-warnings",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      setSpeedWarnings(response.data.speedWarnings);
-    } catch (error) {
-      console.error("Failed to fetch speed warnings", error);
-    }
-  };
+  // const fetchSpeedWarnings = async () => {
+  //   try {
+  //     const token = localStorage.getItem("token");
+  //     const response = await axios.get(
+  //       "https://cars-dot-cloud-app-455515.lm.r.appspot.com/api/speed-warnings",
+  //       {
+  //         headers: { Authorization: `Bearer ${token}` },
+  //       }
+  //     );
+  //     setSpeedWarnings(response.data.speedWarnings);
+  //   } catch (error) {
+  //     console.error("Failed to fetch speed warnings", error);
+  //   }
+  // };
 
   useEffect(() => {
     const loadData = async () => {
       setIsLoading(true);
-      await Promise.all([fetchCars(), fetchSpeedWarnings()]);
+      await Promise.all([fetchCars()]);
       setIsLoading(false);
     };
     
@@ -67,7 +80,7 @@ function MyCarsTab() {
                 <p className="text-gray-600">Year: {car.year}</p>
                 <p className="text-gray-600">License: {car.license_plate}</p>
                 <p className="text-gray-600">Status: {car.status && car.status.trim() ? car.status : 'N/A'}</p>
-                <p className="text-gray-600">Mileage: {car.total_mileage} miles</p> \
+                <p className="text-gray-600">Mileage: {car.total_mileage} miles</p>
               </div>
             ))}
           </div>

@@ -15,7 +15,8 @@ function AddCarTab() {
     average_fuel_consumption: "",
     fuel_type: "",
     co2_emission_rate: "",
-    current_location: "",
+    longitude: "",
+    latitude: "",
     status: "active",
     total_mileage: "",
   });
@@ -51,7 +52,8 @@ function AddCarTab() {
         average_fuel_consumption: enrichedCarFormData.average_fuel_consumption,
         fuel_type: enrichedCarFormData.fuel_type,
         co2_emission_rate: enrichedCarFormData.co2_emission_rate,
-        current_location: enrichedCarFormData.current_location || null,
+        longitude: enrichedCarFormData.longitude || null,
+        latitude: enrichedCarFormData.latitude || null,
         status: enrichedCarFormData.status || "active",
         total_mileage: enrichedCarFormData.total_mileage || 0,
       };
@@ -71,7 +73,8 @@ function AddCarTab() {
         average_fuel_consumption: "",
         fuel_type: "",
         co2_emission_rate: "",
-        current_location: "",
+        longitude: "",
+        latitude: "",
         status: "active",
         total_mileage: "",
       });

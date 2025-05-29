@@ -111,18 +111,18 @@ function Profile() {
               Profile
             </button>
             
-            {role === "driver" && (
-              <button
-                onClick={() => setActiveTab("viewCars")}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === "viewCars"
-                    ? "border-blue-500 text-blue-600"
-                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-                }`}
-              >
-                My Cars
-              </button>
-            )}
+            
+            <button
+              onClick={() => setActiveTab("viewCars")}
+              className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                activeTab === "viewCars"
+                  ? "border-blue-500 text-blue-600"
+                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+              }`}
+            >
+              My Cars
+            </button>
+            
             
             {role === "admin" && (
               <>
@@ -161,7 +161,7 @@ function Profile() {
           />
         )}
 
-        {activeTab === "viewCars" && role === "driver" && (
+        {activeTab === "viewCars" && (
           <MyCarsTab />
         )}
 
